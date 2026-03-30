@@ -11,10 +11,7 @@ import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.stage.Stage;
-import render.Artist;
-import render.GridArtist;
-import render.PauseArtist;
-import render.SpeedSliderArtist;
+import render.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -35,6 +32,7 @@ public class Game {
 	private static final Artist speedSliderArtist = new SpeedSliderArtist(speedSlider);
 	private static final Pause pause = new Pause();
 	private static final Artist pauseArtist = new PauseArtist(pause, grid);
+	private static final ArtistRegistry artistRegistry = new ArtistRegistry();
 	private static final GraphicsContext ctx = canvas.getGraphicsContext2D();
 	private static final Stage stage = new Stage();
 	private static long lastUpdate = 0;
@@ -42,9 +40,7 @@ public class Game {
 	private static final List<KeyboardObserver> keyboardObservers = new ArrayList<>();
 
 	public static void draw(GraphicsContext ctx) {
-		gridArtist.draw(ctx);
-		pauseArtist.draw(ctx);
-		speedSliderArtist.draw(ctx);
+		artistRegistry.draw(ctx);
 	}
 
 	public static void run() {
@@ -54,6 +50,10 @@ public class Game {
 			new ActivateCellInputObserver(pause, grid, SCREEN_WIDTH);
 		mouseObservers.add(cellActivator);
 		keyboardObservers.add(cellActivator);
+		artistRegistry.register(pauseArtist);
+		artistRegistry.register(gridArtist);
+		artistRegistry.register(speedSliderArtist);
+		artistRegistry.setOrder(GridArtist.class, PauseArtist.class, SpeedSliderArtist.class);
 		Scene scene = new Scene(new Group(canvas), SCREEN_WIDTH, SCREEN_HEIGHT);
 		stage.setOnCloseRequest(_ -> Platform.exit());
 		stage.setScene(scene);
