@@ -44,34 +44,8 @@ public class Game {
 	}
 
 	public static void run() {
-		mouseObservers.add(new SpeedSliderMouseObserver(speedSlider));
-		keyboardObservers.add(new PauseKeyboardObserver(pause));
-		ActivateCellInputObserver cellActivator =
-			new ActivateCellInputObserver(pause, grid, SCREEN_WIDTH);
-		mouseObservers.add(cellActivator);
-		keyboardObservers.add(cellActivator);
-		keyboardObservers.add(new ExitKeyboardObserver());
-		artistRegistry.register(pauseArtist);
-		artistRegistry.register(gridArtist);
-		artistRegistry.register(speedSliderArtist);
-		artistRegistry.setOrder(GridArtist.class, PauseArtist.class, SpeedSliderArtist.class);
-		Scene scene = new Scene(new Group(canvas), SCREEN_WIDTH, SCREEN_HEIGHT);
-		stage.setOnCloseRequest(_ -> Platform.exit());
-		stage.setScene(scene);
-		stage.show();
-		initControls();
-		AnimationTimer timer = new AnimationTimer() {
-			@Override
-			public void handle(long now) {
-				ctx.clearRect(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
-				draw(ctx);
-
-				if (!pause.getPaused() &&  now - lastUpdate >= speedSlider.getSpeed() * 1_000_000L) {
-					grid.tick();
-					lastUpdate = now;
-				}
-			}
-		};
+		initGameSystems();
+		AnimationTimer timer = getGameLoopTimer();
 		timer.start();
 	}
 
@@ -84,8 +58,58 @@ public class Game {
 		grid.set(10, 12, true);
 	}
 
+	private static AnimationTimer getGameLoopTimer() {
+		return new AnimationTimer() {
+			@Override
+			public void handle(long now) {
+				ctx.clearRect(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
+				draw(ctx);
+
+				if (!pause.getPaused() &&  now - lastUpdate >= speedSlider.getSpeed() * 1_000_000L) {
+					grid.tick();
+					lastUpdate = now;
+				}
+			}
+		};
+	}
+
+	private static void initGameSystems() {
+		initArtists();
+		initControls();
+		initStage();
+	}
+
+	private static void initArtists() {
+		artistRegistry.register(pauseArtist);
+		artistRegistry.register(gridArtist);
+		artistRegistry.register(speedSliderArtist);
+		artistRegistry.setOrder(GridArtist.class, PauseArtist.class, SpeedSliderArtist.class);
+	}
+
 	private static void initControls() {
+		initInputObservers();
+		initInputCallbacks();
 		canvas.setFocusTraversable(true);
+	}
+
+	private static void initStage() {
+		Scene scene = new Scene(new Group(canvas), SCREEN_WIDTH, SCREEN_HEIGHT);
+		stage.setOnCloseRequest(_ -> Platform.exit());
+		stage.setScene(scene);
+		stage.show();
+	}
+
+	private static void initInputObservers() {
+		mouseObservers.add(new SpeedSliderMouseObserver(speedSlider));
+		keyboardObservers.add(new PauseKeyboardObserver(pause));
+		ActivateCellInputObserver cellActivator =
+			new ActivateCellInputObserver(pause, grid, SCREEN_WIDTH);
+		mouseObservers.add(cellActivator);
+		keyboardObservers.add(cellActivator);
+		keyboardObservers.add(new ExitKeyboardObserver());
+	}
+
+	private static void initInputCallbacks() {
 		canvas.setOnMousePressed((event) -> {
 			canvas.requestFocus();
 			for (MouseObserver mouseObserver : mouseObservers) {
