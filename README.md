@@ -1,7 +1,7 @@
 # Conway's Game Of Life
 ## Concept
 
-Conway's Game Of Life is a cellular automation invented by John Horton Conway in 1970.
+Conway's Game Of Life is a cellular automaton invented by John Horton Conway in 1970.
 It is a zero-player game, meaning that its evolution is entirely determined by its initial state.
 
 This project aims to create a convenient interface for simulating
