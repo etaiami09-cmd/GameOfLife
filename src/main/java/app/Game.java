@@ -50,6 +50,7 @@ public class Game {
 			new ActivateCellInputObserver(pause, grid, SCREEN_WIDTH);
 		mouseObservers.add(cellActivator);
 		keyboardObservers.add(cellActivator);
+		keyboardObservers.add(new ExitKeyboardObserver());
 		artistRegistry.register(pauseArtist);
 		artistRegistry.register(gridArtist);
 		artistRegistry.register(speedSliderArtist);
