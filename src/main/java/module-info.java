@@ -3,4 +3,5 @@ module GameOfLife {
 	requires javafx.graphics;
 	requires java.desktop;
 	opens app to javafx.graphics;
+	exports gol;
 }
