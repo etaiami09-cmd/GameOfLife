@@ -12,7 +12,6 @@ public class Grid {
 	}
 
 	public void set(int x, int y, boolean value) {
-		System.out.println("Called set with x=" + x + ", y=" + y);
 		if (outOfBounds(x, y)) return;
 		data[y][x] = value;
 	}
