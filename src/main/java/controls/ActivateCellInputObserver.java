@@ -34,7 +34,7 @@ public class ActivateCellInputObserver implements MouseObserver, KeyboardObserve
 	}
 
 	@Override
-	public void onMouseRelease(MouseEvent event) {}
+	public void onMouseReleased(MouseEvent event) {}
 
 	@Override
 	public void onKeyPressed(KeyEvent event) {

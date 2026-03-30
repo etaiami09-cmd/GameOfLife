@@ -98,7 +98,7 @@ public class Game {
 		});
 		canvas.setOnMouseReleased((event) -> {
 			for (MouseObserver mouseObserver : mouseObservers) {
-				mouseObserver.onMouseRelease(event);
+				mouseObserver.onMouseReleased(event);
 			}
 		});
 		canvas.setOnKeyPressed((event) -> {

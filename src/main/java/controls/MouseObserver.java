@@ -8,5 +8,5 @@ import javafx.scene.input.MouseEvent;
 public interface MouseObserver {
 	void onMousePressed(MouseEvent event);
 	void onMouseDragged(MouseEvent event);
-	void onMouseRelease(MouseEvent event);
+	void onMouseReleased(MouseEvent event);
 }

@@ -27,7 +27,7 @@ public class SpeedSliderMouseObserver implements MouseObserver {
 	}
 
 	@Override
-	public void onMouseRelease(MouseEvent event) {
+	public void onMouseReleased(MouseEvent event) {
 		dragging = false;
 	}
 }
