@@ -62,7 +62,7 @@ public class Game {
 		AnimationTimer timer = new AnimationTimer() {
 			@Override
 			public void handle(long now) {
-				ctx.clearRect(0, 0, 800, 600);
+				ctx.clearRect(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
 				draw(ctx);
 
 				if (!pause.getPaused() &&  now - lastUpdate >= speedSlider.getSpeed() * 1_000_000L) {
