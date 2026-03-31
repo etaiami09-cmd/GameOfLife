@@ -7,7 +7,7 @@ import javafx.scene.input.KeyEvent;
 public class PauseKeyboardObserver implements KeyboardObserver {
 
 	private boolean pressed = false;
-	private Pause pause;
+	private final Pause pause;
 
 	public PauseKeyboardObserver(Pause pause) {
 		this.pause = pause;
