@@ -25,40 +25,40 @@ public class Game {
 	private static final int MIN_SPEED = 1000;
 	private static final int MAX_SPEED = 50;
 	private static final int DEFAULT_SPEED = 200;
-	private static final Grid grid = new Grid(GRID_WIDTH, GRID_HEIGHT);
-	private static final Artist gridArtist = new GridArtist(grid);
-	private static final SpeedSlider speedSlider = new SpeedSlider(MIN_SPEED, MAX_SPEED, DEFAULT_SPEED);
-	private static final Canvas canvas = new Canvas(SCREEN_WIDTH, SCREEN_HEIGHT);
-	private static final Artist speedSliderArtist = new SpeedSliderArtist(speedSlider);
-	private static final Pause pause = new Pause();
-	private static final Artist pauseArtist = new PauseArtist(pause, grid);
-	private static final ArtistRegistry artistRegistry = new ArtistRegistry();
-	private static final GraphicsContext ctx = canvas.getGraphicsContext2D();
-	private static final Stage stage = new Stage();
-	private static long lastUpdate = 0;
-	private static final List<MouseObserver> mouseObservers = new ArrayList<>();
-	private static final List<KeyboardObserver> keyboardObservers = new ArrayList<>();
+	private final Grid grid = new Grid(GRID_WIDTH, GRID_HEIGHT);
+	private final Artist gridArtist = new GridArtist(grid);
+	private final SpeedSlider speedSlider = new SpeedSlider(MIN_SPEED, MAX_SPEED, DEFAULT_SPEED);
+	private final Canvas canvas = new Canvas(SCREEN_WIDTH, SCREEN_HEIGHT);
+	private final Artist speedSliderArtist = new SpeedSliderArtist(speedSlider);
+	private final Pause pause = new Pause();
+	private final Artist pauseArtist = new PauseArtist(pause, grid);
+	private final ArtistRegistry artistRegistry = new ArtistRegistry();
+	private final GraphicsContext ctx = canvas.getGraphicsContext2D();
+	private final Stage stage = new Stage();
+	private long lastUpdate = 0;
+	private final List<MouseObserver> mouseObservers = new ArrayList<>();
+	private final List<KeyboardObserver> keyboardObservers = new ArrayList<>();
 
-	public static void draw(GraphicsContext ctx) {
-		artistRegistry.draw(ctx);
-	}
-
-	public static void run() {
+	public void run() {
 		initGameSystems();
 		AnimationTimer timer = getGameLoopTimer();
 		timer.start();
 	}
 
+	private void draw(GraphicsContext ctx) {
+		artistRegistry.draw(ctx);
+	}
+
 	// debug method to test a basic pattern
 	@SuppressWarnings("unused")
-	private static void initMess() {
+	private void initMess() {
 		grid.set(10, 10, true);
 		grid.set(10, 11, true);
 		grid.set(11, 11, true);
 		grid.set(10, 12, true);
 	}
 
-	private static AnimationTimer getGameLoopTimer() {
+	private AnimationTimer getGameLoopTimer() {
 		return new AnimationTimer() {
 			@Override
 			public void handle(long now) {
@@ -73,33 +73,33 @@ public class Game {
 		};
 	}
 
-	private static void initGameSystems() {
+	private void initGameSystems() {
 		initArtists();
 		initControls();
 		initStage();
 	}
 
-	private static void initArtists() {
+	private void initArtists() {
 		artistRegistry.register(pauseArtist);
 		artistRegistry.register(gridArtist);
 		artistRegistry.register(speedSliderArtist);
 		artistRegistry.setOrder(GridArtist.class, PauseArtist.class, SpeedSliderArtist.class);
 	}
 
-	private static void initControls() {
+	private void initControls() {
 		initInputObservers();
 		initInputCallbacks();
 		canvas.setFocusTraversable(true);
 	}
 
-	private static void initStage() {
+	private void initStage() {
 		Scene scene = new Scene(new Group(canvas), SCREEN_WIDTH, SCREEN_HEIGHT);
 		stage.setOnCloseRequest(_ -> Platform.exit());
 		stage.setScene(scene);
 		stage.show();
 	}
 
-	private static void initInputObservers() {
+	private void initInputObservers() {
 		mouseObservers.add(new SpeedSliderMouseObserver(speedSlider));
 		keyboardObservers.add(new PauseKeyboardObserver(pause));
 		ActivateCellInputObserver cellActivator =
@@ -109,7 +109,7 @@ public class Game {
 		keyboardObservers.add(new ExitKeyboardObserver());
 	}
 
-	private static void initInputCallbacks() {
+	private void initInputCallbacks() {
 		canvas.setOnMousePressed((event) -> {
 			canvas.requestFocus();
 			for (MouseObserver mouseObserver : mouseObservers) {

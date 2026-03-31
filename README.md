@@ -59,7 +59,7 @@ Any try / catch block must only catch the specific exception that might be throw
 
 ## API And Implementation
 
-Main and Game are completely static classes, everything else is an instance.
+There are no static classes in this project. Everything should be instantiated.
 
 To make the codebase more modular, I created three interfaces for simple management
 of the game.

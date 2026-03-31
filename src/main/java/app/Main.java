@@ -7,7 +7,8 @@ public class Main extends Application {
 
 	@Override
 	public void start(Stage stage) {
-		Game.run();
+		Game game = new Game();
+		game.run();
 	}
 
 	static void main(String[] args) {
