@@ -3,7 +3,7 @@ package gol;
 public class SpeedSlider {
 	private static final int HANDLE_SIZE = 30;
 	private static final int POSITION_Y = 575;
-	private static final int POSITION_X = 150;
+	private static final int POSITION_X = 125;
 	private static final int WIDTH = 500;
 	private static final int HEIGHT = 10;
 	private final int minSpeed;
